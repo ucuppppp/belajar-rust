@@ -259,3 +259,81 @@ fn fn_ownership(){
     hi(name); 
 }
 
+
+fn full_name(first: String, last: String) -> String {
+    format!("{} {}", first, last)
+}
+
+#[test]
+fn r_value_own(){
+    let first = String::from("Ucup");
+    let last = String::from("Aslam");
+
+    let name = full_name(first, last);
+
+    println!("full {}", name);
+    //println!("{}", first);
+    //println!("{}", last);
+}
+
+// mengembalikan ownership
+fn kembalikan(f: String, l:String) -> (String, String, String) {
+    let full = format!("{} {}", f, l);
+
+    (f, l, full)
+}
+
+
+#[test]
+fn test_kembali_owner(){
+    let f = String::from("ucup");
+    let l = String::from("aslam");
+
+    let (f, l, full) = kembalikan(f, l);
+
+    println!("{}", f);
+    println!("{}", l);
+    println!("{}", full);
+
+}
+
+fn fname_references(f: &String, l: &String) -> String {
+    format!("{} {}", f, l)
+}
+
+#[test]
+fn references(){
+    let f = String::from("ucup");
+    let l = String::from("aslam");
+
+    let full = fname_references(&f, &l);
+
+    println!("{}", full);
+     println!("{}", f); //gak diambil sama function bruhhh ownershipnyee
+     println!("{}", l);
+
+}
+
+fn change_value(v: &mut String) {
+   // v.push_str("Test");
+    v.push_str("Test");
+}
+
+
+#[test]
+fn test_change_value(){
+    let mut v = String::from("ucp");
+
+    // change_value(&v);
+    change_value(&mut v);
+    println!("{}", v);
+
+
+}
+
+
+
+
+
+
+
