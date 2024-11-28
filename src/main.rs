@@ -324,16 +324,68 @@ fn change_value(v: &mut String) {
 fn test_change_value(){
     let mut v = String::from("ucp");
 
-    // change_value(&v);
-    change_value(&mut v);
-    println!("{}", v);
+    let value_borrow = &mut v;
 
+    change_value(value_borrow);
+    println!("{}", value_borrow);
+}
 
+#[test]
+fn slice_reference(){
+    let arr: [i32; 10] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    let slice1: &[i32] = &arr[..];
+    println!("{:?}", slice1);
+    let slice2: &[i32] = &arr[0..5];
+    println!("{:?}", slice2);
+    let slice3: &[i32] = &arr[5..];
+    println!("{:?}", slice3);
 }
 
 
+#[test]
+
+fn str_slice(){
+    let name = String::from("Ucup Aslam");
+    let first = &name[..4];
+    println!("{}", first);
+}
 
 
+// struct
+struct Person {
+    name: String,
+    age: u32,
+    alive: bool,
+}
 
+#[test]
+fn test_struct(){
+    let name = String::from("Aslam");
 
+    let person = Person {
+        name,
+        age: 10,
+        alive: true,
+    };
+    let person2 = Person {
+        name: String::from("Yusuf"),
+        ..person
+    };
 
+    print_person(&person);
+    print_person(&person2);
+}
+
+fn print_person(person: &Person){
+    println!("Name: {}", person.name);
+    println!("Age: {}", person.age);
+    println!("Alive: {}", if person.alive { "Alive" } else { "Dead" });
+}
+
+struct GeoPoint (f64, f64);
+
+#[test]
+fn tuple_struct(){
+    let p = GeoPoint(10.0, 20.0);
+    println!("p: {}, {}", p.0, p.1);
+}
