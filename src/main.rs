@@ -403,8 +403,8 @@ fn test_nothing(){
 }
 
 impl Person{
-    fn say_hello(&self, name:&str){
-        println!("Hello {}, my name is {}", name, self.name);
+    fn say_hello(&self, name: &str){
+        println!("Hello {}, my name is {}",name, self.name);
     }
 }
 
@@ -643,3 +643,98 @@ fn test_module(){
     u.say_hello("Yusuf");
 }
 
+trait CanSayHello {
+    fn hellos(&self) -> String {
+        String::from("Hello")
+    }
+    fn say_hello(&self) -> String;
+    fn say_hello_to(&self, name: &str) -> String;
+}
+
+
+impl CanSayHello for Person {
+    
+    fn say_hello(&self) -> String {
+        format!("Hello, my name is {}", self.name)
+    }
+    fn say_hello_to(&self, name:&str) -> String {
+        format!("Hello {}, my name is {}", name, self.name)
+    }
+}
+
+fn say_hello_trait(val: &impl CanSayHello){
+    println!("{}", val.say_hello())
+}
+
+trait CanSayGoodbye {
+    fn good_bye(&self) -> String;
+    fn good_bye_to(&self, name:&str) -> String;
+}
+
+impl CanSayGoodbye for Person {
+    fn good_bye(&self) -> String {
+        format!("Goodbye, my name is {}", self.name)
+    }
+    fn good_bye_to(&self, name : &str) -> String {
+        format!("Goodbye {}, my name is {}", name, self.name)
+    }
+}
+
+fn hello_goodbye(val: &(impl CanSayHello + CanSayGoodbye)) {
+    println!("{}", val.say_hello());
+    println!("{}", val.good_bye());
+}
+
+#[test]
+fn test_trait(){
+    let p = Person {
+        name : String::from("Ucup"),
+        age: 10,
+        alive: true
+    };
+    
+    /*say_hello_trait(&p);
+    hello_goodbye(&p);
+    let result = p.say_hello_to("Budi");
+    println!("{}", result);
+    let result1 = p.hellos();
+    println!("{}", result1);
+    println!("{}", p.good_bye_to("Sarah"));*/
+    CanSayHello::say_hello(&p);
+    Person::say_hello(&p, "Budi")
+}
+
+struct SimplePerson{
+    name: String
+}
+
+impl CanSayGoodbye for SimplePerson {
+    fn good_bye(&self) -> String {
+        format!("Goodbye, my name is {}", self.name)
+    }
+    fn good_bye_to(&self, name: &str) -> String {
+        format!("Goodbye {}, my name is {}", name, self.name)
+    }
+}
+
+fn create_person(name: String) -> impl CanSayGoodbye {
+    SimplePerson { name }
+}
+
+#[test]
+fn test_return_trait(){
+    let p = create_person(String::from("Ucup"));
+    println!("{}", p.good_bye());
+    println!("{}", p.good_bye_to("Sarah"));
+}
+
+trait CanSay: CanSayHello + CanSayGoodbye{
+    
+}
+
+struct SimpleMan {
+    name: String
+}
+impl CanSay for SimpleMan{
+
+}
