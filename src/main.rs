@@ -58,7 +58,6 @@ fn ownership_movement(){
     let name2 = name1;
 
     println!("{}", name2);
-
 }
 
 #[test]
@@ -530,7 +529,117 @@ fn test_struct_pattern() {
             println!("long : {} lat: {}", long, lat);
         }
     }
+
+    let person = Person {
+        name: String::from("Ucup"),
+        age: 17,
+        alive: true
+    };
+    
+    match person {
+        Person {name, ..} => {
+            println!("Name: {}", name);
+        }
+    }
+
+}
+
+#[test]
+fn test_ignoring() {
+    let p = GeoPoint::new(0.0, 1.0);
+    match p {
+        GeoPoint(long, _ ) => {
+            println!("long : {}", long);
+        }
+        GeoPoint( _ , lat) => {
+            println!("lat : {}", lat);
+        }
+        GeoPoint(long, lat) => {
+            println!("long : {} lat: {}", long, lat);
+        }
+    }
+
+    let v = 100;
+    match v {
+        35..=50 => {
+            println!("ullala")
+        }
+        51..=70 => {
+            println!("not bad laa")
+        }
+        71..=100 => {
+            println!("NAISEEE")
+        }
+        _ => {
+            println!("Invalid value ");
+        }
+    }
+
 }
 
 
+
+#[test]
+fn test_match_expression(){
+    let v = 25;
+    let r =  match v {
+        0 => "Zero",
+        1 => "One",
+        2 => "Two",
+        3 => "Three",
+        4 => "Four",
+        5 => "Five",
+        _ => "Other"
+    };
+    println!("{}", r);
+}
+
+
+type Age = u8;
+type IdentityNumber = String;
+
+struct Customer {
+    id: IdentityNumber,
+    name: String,
+    age: Age,
+}
+
+type Pelanggan = Customer;
+
+#[test]
+fn test_customer(){
+    let customer = Customer {
+        id: String::from("123234123412"),
+        name: String::from("Ucup"),
+        age: 17
+    };
+    println!("id: {}, name: {}, age: {}", customer.id, customer.name, customer.age);
+}
+
+mod model;
+mod first;
+mod second;
+mod third;
+
+use model::*;
+// use model::{User, say_hello};
+use first::say_hello;
+use second::say_hello as say_hello_second;
+
+#[test]
+fn test_use(){
+    say_hello("Ucup");
+    say_hello_second("Yusuf");
+    first::second::third::say_hello("Yusuf");
+}
+
+#[test]
+fn test_module(){
+    let u = model::User {
+        name: String::from("Ucup"),
+        age: 17,
+        alive: true
+    };
+    u.say_hello("Yusuf");
+}
 
