@@ -729,12 +729,159 @@ fn test_return_trait(){
 }
 
 trait CanSay: CanSayHello + CanSayGoodbye{
-    
+    fn say(&self){
+        print!("{} {}", self.say_hello(), self.good_bye());
+    }
 }
 
-struct SimpleMan {
-    name: String
-}
-impl CanSay for SimpleMan{
+// struct SimpleMan {
+//     name: String
+// }
+// impl CanSay for SimpleMan{
 
+// }
+
+
+struct Point<T = i32>{
+    x: T,
+    y: T
+}
+
+impl<T> Point<T> {
+    fn get_x(&self) -> &T {
+        &self.x
+    }
+    fn get_y(&self) -> &T {
+        &self.y
+    }
+}
+
+#[test]
+fn test_generic_struct(){
+    let int = Point{x: 10, y: 20};
+    println!("x: {} y: {}", int.x, int.y);
+    let f: Point<f64> = Point::<f64>{x: 10.2, y: 20.32};
+    println!("x: {} y: {}", f.x, f.y);
+}
+
+enum Value<T>{
+    NONE,
+    SOME(T)
+}
+
+
+#[test]
+fn test_generic_enum(){
+    let value = Value::<i32>::SOME(10);
+    match value {
+        Value::NONE => println!("NONE"),
+        Value::SOME(value) => println!("Value: {}", value)
+    }
+}
+
+
+struct Hi<T: CanSayGoodbye> {
+    value: T
+}
+
+#[test]
+fn test_generic_struct_with_trait(){
+    let hi = Hi { value: SimplePerson { name: String::from("Ucup") } };
+    println!("{}", hi.value.good_bye());
+}
+
+
+fn min<T: PartialOrd>(value1: T, value2: T) -> T{
+    if value1 < value2 {
+        value1
+    } else {
+        value2
+    }
+}
+
+#[test]
+fn generic_in_function(){
+    let result = min(10,20);
+    println!("{}", result);
+    let result = min(1.30,2.20);
+    println!("{}", result);
+}
+
+#[test]
+fn test_generic_method(){
+    let p = Point { x: 10, y: 20 };
+    println!("x: {}", p.get_x());
+    println!("y: {}", p.get_y());
+}
+
+
+trait GetValue<T> where T: PartialOrd{
+    fn get_value(&self) -> &T;
+}
+
+impl<T> GetValue<T> for Point<T> where T: PartialOrd{
+    fn get_value(&self) -> &T {
+        &self.x
+    }
+}
+
+use core::ops::Add;
+use core::option::Option;
+
+struct Apple {
+    quantity: u32
+}
+
+impl Add for Apple {
+    type Output = Apple;
+    fn add(self, rhs: Self) -> Self::Output {
+        Apple { 
+            quantity: self.quantity + rhs.quantity 
+        }
+    }
+}
+
+#[test]
+fn test_operator_add(){
+    let apple1 = Apple { quantity: 10 };
+    let apple2 = Apple { quantity: 20 };
+    let apple3 = apple1 + apple2;
+    println!("apple3 quantity {}", apple3.quantity);
+}
+
+fn double(value: Option<i32>) -> Option<i32> {
+    match value {
+        None => None,
+        Some(value) => Some(value * 2)
+    }
+}
+
+#[test]
+fn test_option(){
+    let result = double(None);
+    println!("{:?}", result);
+    let result = double(Some(10));
+    println!("{:?}", result); 
+}
+
+use core::cmp::PartialEq;
+
+impl PartialEq  for Apple {
+    fn eq(&self, other: &Self) -> bool {
+        self.quantity == other.quantity
+    }
+}
+
+impl PartialOrd for Apple {
+    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
+        self.quantity.partial_cmp(&other.quantity)
+    }
+}
+#[test]
+fn test_comparing(){
+    let app1 = Apple { quantity: 10 };
+    let app2 = Apple { quantity: 20 };
+    println!("app1 == app2 {}", app1 == app2);
+    println!("app1 > app2 {}", app1 > app2);
+    println!("app1 < app2 {}", app1 < app2);
 }
