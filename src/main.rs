@@ -865,6 +865,7 @@ fn test_option(){
 }
 
 use core::cmp::PartialEq;
+use std::fmt::{Debug, Formatter, Result};
 
 impl PartialEq  for Apple {
     fn eq(&self, other: &Self) -> bool {
@@ -884,4 +885,46 @@ fn test_comparing(){
     println!("app1 == app2 {}", app1 == app2);
     println!("app1 > app2 {}", app1 > app2);
     println!("app1 < app2 {}", app1 < app2);
+}
+
+#[test]
+fn test_string_manipulation(){
+    let s = String::from("Raditya Ucup Aslam");
+    println!("{}", s.to_lowercase());
+    println!("{}", s.to_uppercase());
+    println!("{}", s.len());
+    println!("{}", s.replace("Ucup", "Yusuf"));
+    println!("{}", s.contains("Aslam"));
+    println!("{}", s.starts_with("Raditya"));
+    println!("{}", s.ends_with("Aslam"));
+    println!("{}", s.trim());
+    println!("{}", &s[0..7]);
+    println!("{:?}", s.get(0..7));
+}
+
+
+struct Category {
+    id: String,
+    name: String
+}
+
+impl Debug for Category {
+    fn fmt(&self, f: &mut Formatter<'_>) -> Result {
+        f.debug_struct("Category")
+            .field("id",&self.id)
+            .field("name", &self.name)
+            .finish()
+    }
+}
+
+#[test]
+fn test_format(){
+    let category = Category { id: String::from("ADSF12314E"), name: String::from("Laptop") };
+    println!("{:?}", category)
+}
+
+#[test]
+fn test_closure(){
+    let sum = |val1: i32, val2: i32| -> i32 { val1 + val2 };
+    println!("{}", sum(10,20));
 }
