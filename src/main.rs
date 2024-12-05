@@ -3,20 +3,20 @@ fn main() {
     b();
 }
 
-fn a(){
+fn a() {
     let a = 10;
     let b = String::from("Ucup");
-    println!("{} {}", a,b);
+    println!("{} {}", a, b);
 }
 
-fn b(){
+fn b() {
     let a = 12;
     let b = String::from("Aslam");
     println!("{}, {}", a, b);
 }
 
 #[test]
-fn string(){
+fn string() {
     let name: &str = " Ucup Aslam ";
     let trim: &str = name.trim();
     println!("{}", name);
@@ -24,18 +24,17 @@ fn string(){
 }
 
 #[test]
-fn string_type(){
+fn string_type() {
     let mut name: String = String::from("Ucup Aslam");
     name.push_str(" Gantenk");
     println!("{}", name);
-    
+
     let budi = name.replace("Ucup", "Yusuf");
     println!("{}", budi);
 }
 
-
 #[test]
-fn ownership_rules(){
+fn ownership_rules() {
     let a = 10;
     println!("{}", a);
     {
@@ -45,15 +44,15 @@ fn ownership_rules(){
 }
 
 #[test]
-fn data_copy(){
+fn data_copy() {
     let a = 10;
     let b = a + 1;
 
-    println!("{}, {}", a,b);
+    println!("{}, {}", a, b);
 }
 
 #[test]
-fn ownership_movement(){
+fn ownership_movement() {
     let name1 = String::from("Ucup");
     let name2 = name1;
 
@@ -61,92 +60,87 @@ fn ownership_movement(){
 }
 
 #[test]
-fn clone(){
+fn clone() {
     let name1 = String::from("UCUP");
     let name2 = name1.clone();
     println!("{}, {}", name1, name2);
 }
 
 #[test]
-fn if_expression(){
+fn if_expression() {
     let value = 9;
 
     if value >= 10 {
         println!("Good!");
-    }else if value == 9 {
+    } else if value == 9 {
         println!("Not bad!");
-    }else{
+    } else {
         println!("Bad!");
     }
 }
 
 #[test]
-fn let_statement(){
+fn let_statement() {
     let value = 9;
-    
-    let result = if value >= 9 {
-        "Good"
-    }else{
-        "Bad"
-    };
-    
+
+    let result = if value >= 9 { "Good" } else { "Bad" };
+
     println!("{}", result)
 }
 
 #[test]
-fn loop_expression(){
+fn loop_expression() {
     let mut counter = 0;
 
-    loop{
+    loop {
         counter += 1;
-        if counter >= 10{
-            break
-        }else if counter % 2 == 0 {
-            continue
+        if counter >= 10 {
+            break;
+        } else if counter % 2 == 0 {
+            continue;
         }
         println!("{}", counter);
     }
-
 }
 
 #[test]
-fn loop_return_value(){
+fn loop_return_value() {
     let mut counter = 0;
     let result = loop {
         if counter > 10 {
             break counter * 2;
         }
-        counter += 1 
+        counter += 1
     };
     println!("{}", result);
 }
 
 #[test]
-fn loop_label(){
+fn loop_label() {
     let mut number = 1;
-    
+
     'outer: loop {
         let mut i = 1;
         loop {
             if number > 10 {
                 break 'outer;
             }
-            
+
             println!("{} X {} = {}", number, i, number * i);
             i += 1;
             if i > 10 {
-                break
+                break;
             }
         }
         number += 1;
     }
 }
 
- #[test]
-fn while_loop(){
+#[test]
+fn while_loop() {
     let mut counter = 0;
     while counter <= 10 {
-        if counter % 2 == 0{
+        if counter % 2 == 0 {
             println!("Even : {}", counter);
         }
         counter += 1
@@ -154,18 +148,18 @@ fn while_loop(){
 }
 
 #[test]
-fn arr_iteration(){
+fn arr_iteration() {
     let arr = ["a", "b", "c", "d", "e"];
     let mut index = 0;
 
-    while index < arr.len(){
+    while index < arr.len() {
         println!("Value :{}", arr[index]);
         index += 1
     }
 }
 
 #[test]
-fn arr_iteration_for(){
+fn arr_iteration_for() {
     let arr = ["a", "b", "c", "d", "e"];
     for value in arr {
         println!("Value : {}", value);
@@ -173,29 +167,31 @@ fn arr_iteration_for(){
 }
 
 #[test]
-fn range_datatype(){
+fn range_datatype() {
     let arr = ["a", "b", "c", "d", "e"];
     let range = 0..5;
     println!("Start: {}", range.start);
     println!("End: {}", range.end);
-    
-    for i in 0..5{ //gini juga bis bruhh
+
+    for i in 0..5 {
+        //gini juga bis bruhh
         println!("ulala{}", arr[i]);
     }
 }
 
 #[test]
-fn range_inclusive(){
+fn range_inclusive() {
     let arr = ["a", "b", "c", "d", "e"];
     let range = 0..=4; // ini maksudnya bruhh
     println!("Start: {}", range.start());
     println!("End: {}", range.end());
-    
-    for i in 0..=4{ //gini juga bis bruhh
+
+    for i in 0..=4 {
+        //gini juga bis bruhh
         println!("ulala{}", arr[i]);
     }
 }
-fn say_something(word: &str, name: &str){
+fn say_something(word: &str, name: &str) {
     println!("{}, {}", word, name);
 }
 
@@ -212,22 +208,22 @@ fn factorial(n: i32) -> i32 {
 }
 
 #[test]
-fn param_or_arg(){
-   say_something("Hey", "Ucup");
+fn param_or_arg() {
+    say_something("Hey", "Ucup");
     println!("{}", factorial(10));
 }
 
-fn print_text(value: String, times: i32){
-    if times == 0{
+fn print_text(value: String, times: i32) {
+    if times == 0 {
         return;
-    }else{
+    } else {
         println!("{}", value);
     }
-    print_text(value, times-1);
+    print_text(value, times - 1);
 }
 
 fn factorial_recursive(n: u32) -> u32 {
-    if n <= 1{
+    if n <= 1 {
         return 1;
     }
 
@@ -235,36 +231,35 @@ fn factorial_recursive(n: u32) -> u32 {
 }
 
 #[test]
-fn test_recursive(){
+fn test_recursive() {
     print_text(String::from("Ucup"), 5);
-    println!("{}",factorial_recursive(10));
+    println!("{}", factorial_recursive(10));
 }
 
-fn print_number(number: i32){
+fn print_number(number: i32) {
     println!("number {}", number);
 }
 
-fn hi(name: String){
+fn hi(name: String) {
     println!("name {}", name);
 }
 
 #[test]
-fn fn_ownership(){
+fn fn_ownership() {
     let number = 10;
     print_number(number);
     println!("{}", number);
-    
-    let name = String::from("Ucup");
-    hi(name); 
-}
 
+    let name = String::from("Ucup");
+    hi(name);
+}
 
 fn full_name(first: String, last: String) -> String {
     format!("{} {}", first, last)
 }
 
 #[test]
-fn r_value_own(){
+fn r_value_own() {
     let first = String::from("Ucup");
     let last = String::from("Aslam");
 
@@ -276,15 +271,14 @@ fn r_value_own(){
 }
 
 // mengembalikan ownership
-fn kembalikan(f: String, l:String) -> (String, String, String) {
+fn kembalikan(f: String, l: String) -> (String, String, String) {
     let full = format!("{} {}", f, l);
 
     (f, l, full)
 }
 
-
 #[test]
-fn test_kembali_owner(){
+fn test_kembali_owner() {
     let f = String::from("ucup");
     let l = String::from("aslam");
 
@@ -293,7 +287,6 @@ fn test_kembali_owner(){
     println!("{}", f);
     println!("{}", l);
     println!("{}", full);
-
 }
 
 fn fname_references(f: &String, l: &String) -> String {
@@ -301,26 +294,24 @@ fn fname_references(f: &String, l: &String) -> String {
 }
 
 #[test]
-fn references(){
+fn references() {
     let f = String::from("ucup");
     let l = String::from("aslam");
 
     let full = fname_references(&f, &l);
 
     println!("{}", full);
-     println!("{}", f); //gak diambil sama function bruhhh ownershipnyee
-     println!("{}", l);
-
+    println!("{}", f); //gak diambil sama function bruhhh ownershipnyee
+    println!("{}", l);
 }
 
 fn change_value(v: &mut String) {
-   // v.push_str("Test");
+    // v.push_str("Test");
     v.push_str("Test");
 }
 
-
 #[test]
-fn test_change_value(){
+fn test_change_value() {
     let mut v = String::from("ucp");
 
     let value_borrow = &mut v;
@@ -330,7 +321,7 @@ fn test_change_value(){
 }
 
 #[test]
-fn slice_reference(){
+fn slice_reference() {
     let arr: [i32; 10] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     let slice1: &[i32] = &arr[..];
     println!("{:?}", slice1);
@@ -340,15 +331,13 @@ fn slice_reference(){
     println!("{:?}", slice3);
 }
 
-
 #[test]
 
-fn str_slice(){
+fn str_slice() {
     let name = String::from("Ucup Aslam");
     let first = &name[..4];
     println!("{}", first);
 }
-
 
 // struct
 struct Person {
@@ -358,7 +347,7 @@ struct Person {
 }
 
 #[test]
-fn test_struct(){
+fn test_struct() {
     let name = String::from("Aslam");
 
     let person = Person {
@@ -375,22 +364,22 @@ fn test_struct(){
     print_person(&person2);
 }
 
-fn print_person(person: &Person){
+fn print_person(person: &Person) {
     println!("Name: {}", person.name);
     println!("Age: {}", person.age);
     println!("Alive: {}", if person.alive { "Alive" } else { "Dead" });
 }
 
-struct GeoPoint (f64, f64);
+struct GeoPoint(f64, f64);
 
-impl GeoPoint{
+impl GeoPoint {
     fn new(long: f64, lat: f64) -> GeoPoint {
         GeoPoint(long, lat)
     }
 }
 
 #[test]
-fn tuple_struct(){
+fn tuple_struct() {
     let p = GeoPoint(10.0, 20.0);
     println!("p: {}, {}", p.0, p.1);
 }
@@ -398,22 +387,22 @@ fn tuple_struct(){
 struct Nothing;
 
 #[test]
-fn test_nothing(){
-    let _nothing: Nothing = Nothing{};
+fn test_nothing() {
+    let _nothing: Nothing = Nothing {};
 }
 
-impl Person{
-    fn say_hello(&self, name: &str){
-        println!("Hello {}, my name is {}",name, self.name);
+impl Person {
+    fn say_hello(&self, name: &str) {
+        println!("Hello {}, my name is {}", name, self.name);
     }
 }
 
 #[test]
-fn test_method(){
-    let person = Person{
+fn test_method() {
+    let person = Person {
         name: String::from("Ucup"),
         age: 17,
-        alive: true
+        alive: true,
     };
 
     person.say_hello("ulala")
@@ -429,7 +418,7 @@ fn test_associated_function() {
 enum Level {
     Regular,
     Premium,
-    Platinum
+    Platinum,
 }
 
 #[test]
@@ -440,22 +429,28 @@ fn test_enum() {
 enum Payment {
     CreditCard(String),
     BankTransfer(String, String),
-    EWallet(String, String)
+    EWallet(String, String),
 }
 
 impl Payment {
-    fn pay(&self, amount: u32){
+    fn pay(&self, amount: u32) {
         match self {
             Payment::CreditCard(number) => {
-                println!("Paying with credit card {} amount {}",number,amount);
+                println!("Paying with credit card {} amount {}", number, amount);
             }
             Payment::BankTransfer(bank, number) => {
-                println!("Paying with bank transfer {} {} amount {}",bank, number,amount);
+                println!(
+                    "Paying with bank transfer {} {} amount {}",
+                    bank, number, amount
+                );
             }
             Payment::EWallet(wallet, number) => {
-                println!("Paying with ewallet {} {} amount {}",wallet,number,amount);
+                println!(
+                    "Paying with ewallet {} {} amount {}",
+                    wallet, number, amount
+                );
             }
-        }   
+        }
     }
 }
 
@@ -466,7 +461,7 @@ fn test_payment() {
 }
 
 #[test]
-fn test_enum_matching(){
+fn test_enum_matching() {
     let level: Level = Level::Regular;
 
     match level {
@@ -497,7 +492,7 @@ fn test_match_value() {
 }
 
 #[test]
-fn test_range_pattern(){
+fn test_range_pattern() {
     let v = 100;
     match v {
         35..=50 => {
@@ -533,25 +528,24 @@ fn test_struct_pattern() {
     let person = Person {
         name: String::from("Ucup"),
         age: 17,
-        alive: true
+        alive: true,
     };
-    
+
     match person {
-        Person {name, ..} => {
+        Person { name, .. } => {
             println!("Name: {}", name);
         }
     }
-
 }
 
 #[test]
 fn test_ignoring() {
     let p = GeoPoint::new(0.0, 1.0);
     match p {
-        GeoPoint(long, _ ) => {
+        GeoPoint(long, _) => {
             println!("long : {}", long);
         }
-        GeoPoint( _ , lat) => {
+        GeoPoint(_, lat) => {
             println!("lat : {}", lat);
         }
         GeoPoint(long, lat) => {
@@ -574,26 +568,22 @@ fn test_ignoring() {
             println!("Invalid value ");
         }
     }
-
 }
 
-
-
 #[test]
-fn test_match_expression(){
+fn test_match_expression() {
     let v = 25;
-    let r =  match v {
+    let r = match v {
         0 => "Zero",
         1 => "One",
         2 => "Two",
         3 => "Three",
         4 => "Four",
         5 => "Five",
-        _ => "Other"
+        _ => "Other",
     };
     println!("{}", r);
 }
-
 
 type Age = u8;
 type IdentityNumber = String;
@@ -607,17 +597,20 @@ struct Customer {
 type Pelanggan = Customer;
 
 #[test]
-fn test_customer(){
+fn test_customer() {
     let customer = Customer {
         id: String::from("123234123412"),
         name: String::from("Ucup"),
-        age: 17
+        age: 17,
     };
-    println!("id: {}, name: {}, age: {}", customer.id, customer.name, customer.age);
+    println!(
+        "id: {}, name: {}, age: {}",
+        customer.id, customer.name, customer.age
+    );
 }
 
-mod model;
 mod first;
+mod model;
 mod second;
 mod third;
 
@@ -627,18 +620,18 @@ use first::say_hello;
 use second::say_hello as say_hello_second;
 
 #[test]
-fn test_use(){
+fn test_use() {
     say_hello("Ucup");
     say_hello_second("Yusuf");
     first::second::third::say_hello("Yusuf");
 }
 
 #[test]
-fn test_module(){
+fn test_module() {
     let u = model::User {
         name: String::from("Ucup"),
         age: 17,
-        alive: true
+        alive: true,
     };
     u.say_hello("Yusuf");
 }
@@ -651,31 +644,29 @@ trait CanSayHello {
     fn say_hello_to(&self, name: &str) -> String;
 }
 
-
 impl CanSayHello for Person {
-    
     fn say_hello(&self) -> String {
         format!("Hello, my name is {}", self.name)
     }
-    fn say_hello_to(&self, name:&str) -> String {
+    fn say_hello_to(&self, name: &str) -> String {
         format!("Hello {}, my name is {}", name, self.name)
     }
 }
 
-fn say_hello_trait(val: &impl CanSayHello){
+fn say_hello_trait(val: &impl CanSayHello) {
     println!("{}", val.say_hello())
 }
 
 trait CanSayGoodbye {
     fn good_bye(&self) -> String;
-    fn good_bye_to(&self, name:&str) -> String;
+    fn good_bye_to(&self, name: &str) -> String;
 }
 
 impl CanSayGoodbye for Person {
     fn good_bye(&self) -> String {
         format!("Goodbye, my name is {}", self.name)
     }
-    fn good_bye_to(&self, name : &str) -> String {
+    fn good_bye_to(&self, name: &str) -> String {
         format!("Goodbye {}, my name is {}", name, self.name)
     }
 }
@@ -686,13 +677,13 @@ fn hello_goodbye(val: &(impl CanSayHello + CanSayGoodbye)) {
 }
 
 #[test]
-fn test_trait(){
+fn test_trait() {
     let p = Person {
-        name : String::from("Ucup"),
+        name: String::from("Ucup"),
         age: 10,
-        alive: true
+        alive: true,
     };
-    
+
     /*say_hello_trait(&p);
     hello_goodbye(&p);
     let result = p.say_hello_to("Budi");
@@ -704,8 +695,8 @@ fn test_trait(){
     Person::say_hello(&p, "Budi")
 }
 
-struct SimplePerson{
-    name: String
+struct SimplePerson {
+    name: String,
 }
 
 impl CanSayGoodbye for SimplePerson {
@@ -722,14 +713,14 @@ fn create_person(name: String) -> impl CanSayGoodbye {
 }
 
 #[test]
-fn test_return_trait(){
+fn test_return_trait() {
     let p = create_person(String::from("Ucup"));
     println!("{}", p.good_bye());
     println!("{}", p.good_bye_to("Sarah"));
 }
 
-trait CanSay: CanSayHello + CanSayGoodbye{
-    fn say(&self){
+trait CanSay: CanSayHello + CanSayGoodbye {
+    fn say(&self) {
         print!("{} {}", self.say_hello(), self.good_bye());
     }
 }
@@ -741,10 +732,9 @@ trait CanSay: CanSayHello + CanSayGoodbye{
 
 // }
 
-
-struct Point<T = i32>{
+struct Point<T = i32> {
     x: T,
-    y: T
+    y: T,
 }
 
 impl<T> Point<T> {
@@ -757,41 +747,42 @@ impl<T> Point<T> {
 }
 
 #[test]
-fn test_generic_struct(){
-    let int = Point{x: 10, y: 20};
+fn test_generic_struct() {
+    let int = Point { x: 10, y: 20 };
     println!("x: {} y: {}", int.x, int.y);
-    let f: Point<f64> = Point::<f64>{x: 10.2, y: 20.32};
+    let f: Point<f64> = Point::<f64> { x: 10.2, y: 20.32 };
     println!("x: {} y: {}", f.x, f.y);
 }
 
-enum Value<T>{
+enum Value<T> {
     NONE,
-    SOME(T)
+    SOME(T),
 }
 
-
 #[test]
-fn test_generic_enum(){
+fn test_generic_enum() {
     let value = Value::<i32>::SOME(10);
     match value {
         Value::NONE => println!("NONE"),
-        Value::SOME(value) => println!("Value: {}", value)
+        Value::SOME(value) => println!("Value: {}", value),
     }
 }
 
-
 struct Hi<T: CanSayGoodbye> {
-    value: T
+    value: T,
 }
 
 #[test]
-fn test_generic_struct_with_trait(){
-    let hi = Hi { value: SimplePerson { name: String::from("Ucup") } };
+fn test_generic_struct_with_trait() {
+    let hi = Hi {
+        value: SimplePerson {
+            name: String::from("Ucup"),
+        },
+    };
     println!("{}", hi.value.good_bye());
 }
 
-
-fn min<T: PartialOrd>(value1: T, value2: T) -> T{
+fn min<T: PartialOrd>(value1: T, value2: T) -> T {
     if value1 < value2 {
         value1
     } else {
@@ -800,26 +791,31 @@ fn min<T: PartialOrd>(value1: T, value2: T) -> T{
 }
 
 #[test]
-fn generic_in_function(){
-    let result = min(10,20);
+fn generic_in_function() {
+    let result = min(10, 20);
     println!("{}", result);
-    let result = min(1.30,2.20);
+    let result = min(1.30, 2.20);
     println!("{}", result);
 }
 
 #[test]
-fn test_generic_method(){
+fn test_generic_method() {
     let p = Point { x: 10, y: 20 };
     println!("x: {}", p.get_x());
     println!("y: {}", p.get_y());
 }
 
-
-trait GetValue<T> where T: PartialOrd{
+trait GetValue<T>
+where
+    T: PartialOrd,
+{
     fn get_value(&self) -> &T;
 }
 
-impl<T> GetValue<T> for Point<T> where T: PartialOrd{
+impl<T> GetValue<T> for Point<T>
+where
+    T: PartialOrd,
+{
     fn get_value(&self) -> &T {
         &self.x
     }
@@ -829,20 +825,20 @@ use core::ops::Add;
 use core::option::Option;
 
 struct Apple {
-    quantity: u32
+    quantity: u32,
 }
 
 impl Add for Apple {
     type Output = Apple;
     fn add(self, rhs: Self) -> Self::Output {
-        Apple { 
-            quantity: self.quantity + rhs.quantity 
+        Apple {
+            quantity: self.quantity + rhs.quantity,
         }
     }
 }
 
 #[test]
-fn test_operator_add(){
+fn test_operator_add() {
     let apple1 = Apple { quantity: 10 };
     let apple2 = Apple { quantity: 20 };
     let apple3 = apple1 + apple2;
@@ -852,22 +848,22 @@ fn test_operator_add(){
 fn double(value: Option<i32>) -> Option<i32> {
     match value {
         None => None,
-        Some(value) => Some(value * 2)
+        Some(value) => Some(value * 2),
     }
 }
 
 #[test]
-fn test_option(){
+fn test_option() {
     let result = double(None);
     println!("{:?}", result);
     let result = double(Some(10));
-    println!("{:?}", result); 
+    println!("{:?}", result);
 }
 
 use core::cmp::PartialEq;
 use std::fmt::{Debug, Formatter, Result as ResultFormatter};
 
-impl PartialEq  for Apple {
+impl PartialEq for Apple {
     fn eq(&self, other: &Self) -> bool {
         self.quantity == other.quantity
     }
@@ -879,7 +875,7 @@ impl PartialOrd for Apple {
     }
 }
 #[test]
-fn test_comparing(){
+fn test_comparing() {
     let app1 = Apple { quantity: 10 };
     let app2 = Apple { quantity: 20 };
     println!("app1 == app2 {}", app1 == app2);
@@ -888,7 +884,7 @@ fn test_comparing(){
 }
 
 #[test]
-fn test_string_manipulation(){
+fn test_string_manipulation() {
     let s = String::from("Raditya Ucup Aslam");
     println!("{}", s.to_lowercase());
     println!("{}", s.to_uppercase());
@@ -902,47 +898,44 @@ fn test_string_manipulation(){
     println!("{:?}", s.get(0..7));
 }
 
-
 struct Category {
     id: String,
-    name: String
+    name: String,
 }
 
 impl Debug for Category {
     fn fmt(&self, f: &mut Formatter<'_>) -> ResultFormatter {
         f.debug_struct("Category")
-            .field("id",&self.id)
+            .field("id", &self.id)
             .field("name", &self.name)
             .finish()
     }
 }
 
 #[test]
-fn test_format(){
-    let category = Category { id: String::from("ADSF12314E"), name: String::from("Laptop") };
+fn test_format() {
+    let category = Category {
+        id: String::from("ADSF12314E"),
+        name: String::from("Laptop"),
+    };
     println!("{:?}", category)
 }
 
 #[test]
-fn test_closure(){
-    let sum = |val1: i32, val2: i32| -> i32 {
-        val1 + val2
-    };
-    println!("{}", sum(10,20));
+fn test_closure() {
+    let sum = |val1: i32, val2: i32| -> i32 { val1 + val2 };
+    println!("{}", sum(10, 20));
 }
 
-
-fn print_with_filter(value: String, filter:fn(String) -> String) {
+fn print_with_filter(value: String, filter: fn(String) -> String) {
     let result = filter(value);
     println!("Result : {}", result);
 }
 
-
-
 #[test]
 fn test_closure_as_parameter() {
     let name = String::from("Raditya Yusuf Aslam");
-    print_with_filter(name, |value: String| -> String {value.to_uppercase()});
+    print_with_filter(name, |value: String| -> String { value.to_uppercase() });
 }
 
 fn to_uppercase(value: String) -> String {
@@ -956,7 +949,7 @@ fn test_closure_as_closure() {
 }
 
 #[test]
-fn  test_closure_scope() {
+fn test_closure_scope() {
     let mut counter = 0;
     let mut increment = || {
         counter += 1;
@@ -969,26 +962,23 @@ fn  test_closure_scope() {
 }
 
 struct Counter {
-    counter: i32
+    counter: i32,
 }
 
-impl Counter{
+impl Counter {
     fn increment(&mut self) {
         self.counter += 1;
         println!("Increment");
     }
 }
 #[test]
-fn test_closure_scope_alt(){
-    let mut counter = Counter {
-        counter: 0
-    };
+fn test_closure_scope_alt() {
+    let mut counter = Counter { counter: 0 };
     counter.increment();
     counter.increment();
     counter.increment();
     println!("{}", counter.counter);
 }
-
 
 #[test]
 fn test_vector() {
@@ -1001,28 +991,27 @@ fn test_vector() {
     }
     println!("{:?}", names);
 }
-use std::collections::{ VecDeque, LinkedList, HashMap, BTreeMap, HashSet, BTreeSet};
+use std::collections::{BTreeMap, BTreeSet, HashMap, HashSet, LinkedList, VecDeque};
 #[test]
 fn test_vector_deque() {
-    let mut names:VecDeque<String> = VecDeque::<String>::new();
+    let mut names: VecDeque<String> = VecDeque::<String>::new();
     names.push_back(String::from("Raditya"));
-    names.push_back(String::from( "Yusuf" ));
+    names.push_back(String::from("Yusuf"));
     names.push_front(String::from("Aslam"));
     println!("{:?}", names);
     println!("{:?}", names[0]);
 }
 #[test]
-fn  test_linked_list() {
-    let mut names:LinkedList<String> = LinkedList::<String>::new();
+fn test_linked_list() {
+    let mut names: LinkedList<String> = LinkedList::<String>::new();
     names.push_back(String::from("Raditya"));
     names.push_back(String::from("Yusuf"));
     names.push_front(String::from("Aslam"));
-    for name in &names{
+    for name in &names {
         println!("{}", name);
     }
     println!("{:?}", names);
 }
-
 
 #[test]
 fn test_hash_map() {
@@ -1031,10 +1020,9 @@ fn test_hash_map() {
     map.insert(String::from("age"), String::from("26"));
     let name = map.get("name");
     let age = map.get("age");
-     for entry in map {
+    for entry in map {
         println!("{} : {}", entry.0, entry.1);
     }
-   
 }
 
 #[test]
@@ -1077,10 +1065,9 @@ fn test_btree_set() {
     }
 }
 
-
 #[test]
-fn test_iterator(){
-    let array = [1,2,3,4,5];
+fn test_iterator() {
+    let array = [1, 2, 3, 4, 5];
     let mut iter = array.iter();
     while let Some(value) = iter.next() {
         println!("{}", value);
@@ -1090,16 +1077,12 @@ fn test_iterator(){
     }
 }
 
-
-
-
-
 #[test]
-fn test_iterator_method(){
-    let v = vec![1,2,3,4,5,6,7,8,9,10];
+fn test_iterator_method() {
+    let v = vec![1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     println!("{:?}", v);
 
-    let sum: i32  = v.iter().sum();
+    let sum: i32 = v.iter().sum();
     println!("{}", sum);
 
     let count = v.iter().count();
@@ -1108,37 +1091,34 @@ fn test_iterator_method(){
     let doubled: Vec<i32> = v.iter().map(|x| x * 2).collect();
     println!("{:?}", doubled);
 
-    let odd:Vec<&i32> = v.iter().filter(|x| *x % 2 == 1).collect();
+    let odd: Vec<&i32> = v.iter().filter(|x| *x % 2 == 1).collect();
     println!("{:?}", odd);
 }
 
-
-
- fn connect_database(host: Option<String>){
+fn connect_database(host: Option<String>) {
     match host {
         Some(host) => {
             println!("Connecting to database {}", host);
-        },
+        }
         None => {
             panic!("No database host provided");
         }
     }
- }
-
-#[test]
-fn test_panic(){
-    connect_database(Some(String::from("localhost")));
-    connect_database(None);
-    
 }
 
-  // Menyertakan Result dari pustaka standar
+#[test]
+fn test_panic() {
+    connect_database(Some(String::from("localhost")));
+    connect_database(None);
+}
+
+// Menyertakan Result dari pustaka standar
 use std::result::{self, Result};
 
 fn connect_cache(host: Option<String>) -> Result<String, String> {
     match host {
         Some(host) => Ok(host),
-        None => Err("No cache host provided".to_string())
+        None => Err("No cache host provided".to_string()),
     }
 }
 
@@ -1148,16 +1128,16 @@ fn test_recoverable_error() {
     match cache {
         Ok(host) => {
             println!("Success connecting to cache {:?}", host);
-        },
+        }
         Err(error) => {
             println!("Error connecting to cache {}", error);
         }
     }
 }
-fn connect_email(host: Option<String>)  -> Result<String, String> {
+fn connect_email(host: Option<String>) -> Result<String, String> {
     match host {
         Some(host) => Ok(host),
-        None => Err("No email host provided".to_string())
+        None => Err("No email host provided".to_string()),
     }
 }
 
@@ -1187,10 +1167,9 @@ fn test_application_error() {
     let result = connect_application(None);
     match result {
         Ok(host) => println!("Success connecting with message: {}", host),
-        Err(error) => println!("Error connecting with message: {}", error)
+        Err(error) => println!("Error connecting with message: {}", error),
     }
 }
-
 
 #[test]
 fn test_dangling_reference() {
@@ -1203,4 +1182,113 @@ fn test_dangling_reference() {
     println!("{}", r);
 }
 
- 
+fn longest<'a>(value: &'a str, value2: &'a str) -> &'a str {
+    if value.len() > value2.len() {
+        value
+    } else {
+        value2
+    }
+}
+
+#[test]
+fn test_lifetime_annotation() {
+    let val1 = "Ucup";
+    let val2 = "Aslam";
+    let result = longest(val1, val2);
+    println!("{}", result);
+}
+
+#[test]
+fn test_lifetime_annotation_dangling_ref() {
+    let str1 = String::from("ucup");
+    let result;
+    let str2 = String::from("aslam");
+    {
+        result = longest(str1.as_str(), str2.as_str());
+    }
+    println!("{}", result);
+}
+
+struct Student<'a, 'b> {
+    name: &'a str,
+    username: &'b str,
+}
+
+impl<'a, 'b> Student<'a, 'b> {
+    fn longest_name(&self, student: &Student<'a, 'b>) -> &'a str {
+        if self.name.len() > student.name.len() {
+            self.name
+        } else {
+            student.name
+        }
+    }
+}
+
+fn longest_student_name<'a, 'b>(student1: &Student<'a, 'b>, student2: &Student<'a, 'b>) -> &'a str {
+    if student1.name.len() > student2.name.len() {
+        student1.name
+    } else {
+        student2.name
+    }
+}
+
+#[test]
+fn test_student() {
+    let student = Student {
+        name: "Ucup",
+        username: "ucuppppp",
+    };
+    let student2 = Student {
+        name: "asdfp",
+        username: "ucuasdfppppp",
+    };
+
+    println!("{}", student.name);
+    println!("{}", longest_student_name(&student, &student2));
+    println!("{}", student.longest_name(&student2));
+}
+
+struct Teacher<'a, ID>
+where
+    ID: Ord,
+{
+    id: ID,
+    name: &'a str,
+}
+
+#[test]
+fn test_lifetime_annotation_generic() {
+    let teacher: Teacher<i32> = Teacher {
+        id: 10,
+        name: "Ucup",
+    };
+    println!("{}", teacher.id);
+    println!("{}", teacher.name);
+}
+
+#[derive(Debug, PartialEq, PartialOrd)]
+struct Company {
+    name: String,
+    location: String,
+    website: String,
+}
+
+#[test]
+fn test_attribute_derive() {
+    let com = Company {
+        name: "Cjeux".to_string(),
+        location: "Indonesia".to_string(),
+        website: "cjeux.com".to_string(),
+    };
+    let com2 = Company {
+        name: "Tekopedia".to_string(),
+        location: "Indonesia".to_string(),
+        website: "tekopedia.com".to_string(),
+    };
+
+    println!("{:?}", com);
+    let result = com == com2;
+    println!("{}", result);
+    let result = com2 > com;
+    println!("{}", result);
+}
