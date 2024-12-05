@@ -865,7 +865,7 @@ fn test_option(){
 }
 
 use core::cmp::PartialEq;
-use std::fmt::{Debug, Formatter, Result};
+use std::fmt::{Debug, Formatter, Result as ResultFormatter};
 
 impl PartialEq  for Apple {
     fn eq(&self, other: &Self) -> bool {
@@ -909,7 +909,7 @@ struct Category {
 }
 
 impl Debug for Category {
-    fn fmt(&self, f: &mut Formatter<'_>) -> Result {
+    fn fmt(&self, f: &mut Formatter<'_>) -> ResultFormatter {
         f.debug_struct("Category")
             .field("id",&self.id)
             .field("name", &self.name)
@@ -1078,19 +1078,129 @@ fn test_btree_set() {
 }
 
 
+#[test]
+fn test_iterator(){
+    let array = [1,2,3,4,5];
+    let mut iter = array.iter();
+    while let Some(value) = iter.next() {
+        println!("{}", value);
+    }
+    for value in iter {
+        println!("{}", value);
+    }
+}
 
 
 
 
 
+#[test]
+fn test_iterator_method(){
+    let v = vec![1,2,3,4,5,6,7,8,9,10];
+    println!("{:?}", v);
+
+    let sum: i32  = v.iter().sum();
+    println!("{}", sum);
+
+    let count = v.iter().count();
+    println!("{}", count);
+
+    let doubled: Vec<i32> = v.iter().map(|x| x * 2).collect();
+    println!("{:?}", doubled);
+
+    let odd:Vec<&i32> = v.iter().filter(|x| *x % 2 == 1).collect();
+    println!("{:?}", odd);
+}
 
 
 
+ fn connect_database(host: Option<String>){
+    match host {
+        Some(host) => {
+            println!("Connecting to database {}", host);
+        },
+        None => {
+            panic!("No database host provided");
+        }
+    }
+ }
+
+#[test]
+fn test_panic(){
+    connect_database(Some(String::from("localhost")));
+    connect_database(None);
+    
+}
+
+  // Menyertakan Result dari pustaka standar
+use std::result::{self, Result};
+
+fn connect_cache(host: Option<String>) -> Result<String, String> {
+    match host {
+        Some(host) => Ok(host),
+        None => Err("No cache host provided".to_string())
+    }
+}
+
+#[test]
+fn test_recoverable_error() {
+    let cache = connect_cache(Some("localhost".to_string()));
+    match cache {
+        Ok(host) => {
+            println!("Success connecting to cache {:?}", host);
+        },
+        Err(error) => {
+            println!("Error connecting to cache {}", error);
+        }
+    }
+}
+fn connect_email(host: Option<String>)  -> Result<String, String> {
+    match host {
+        Some(host) => Ok(host),
+        None => Err("No email host provided".to_string())
+    }
+}
+
+fn connect_application(host: Option<String>) -> Result<String, String> {
+    // let cache_result = connect_cache(host.clone());
+    // match cache_result {
+    //     Ok(_) => {},
+    //     Err(error) => {
+    //         Err(error)
+    //     }
+    // }
+    // let connect_email = connect_email(host.clone());
+    // match connect_email {
+    //     Ok(_) => {},
+    //     Err(error) => {
+    //         Err(error)
+    //     }
+    // }
+    connect_cache(host.clone())?;
+    connect_email(host.clone())?;
+    Ok("Success".to_string())
+}
+
+#[test]
+fn test_application_error() {
+    // let result = connect_application(Some("localhost".to_string()));
+    let result = connect_application(None);
+    match result {
+        Ok(host) => println!("Success connecting with message: {}", host),
+        Err(error) => println!("Error connecting with message: {}", error)
+    }
+}
 
 
+#[test]
+fn test_dangling_reference() {
+    let r: &i32;
+    {
+        let x = 5;
+        // r = &x;
+    }
+    r = &30;
+    println!("{}", r);
+}
 
-
-
-
-
-
+ 
