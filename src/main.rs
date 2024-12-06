@@ -861,6 +861,7 @@ fn test_option() {
 }
 
 use core::cmp::PartialEq;
+use std::cell::RefCell;
 use std::fmt::{Debug, Formatter, Result as ResultFormatter};
 
 impl PartialEq for Apple {
@@ -1112,6 +1113,7 @@ fn test_panic() {
     connect_database(None);
 }
 
+use std::rc::Rc;
 // Menyertakan Result dari pustaka standar
 use std::result::{self, Result};
 
@@ -1284,7 +1286,7 @@ fn test_attribute_derive() {
         name: "Tekopedia".to_string(),
         location: "Indonesia".to_string(),
         website: "tekopedia.com".to_string(),
-    };
+    };  
 
     println!("{:?}", com);
     let result = com == com2;
@@ -1292,3 +1294,170 @@ fn test_attribute_derive() {
     let result = com2 > com;
     println!("{}", result);
 }
+
+#[test]
+fn test_box() {
+    let val = Box::new(10);
+    println!("{}", val);
+    display_number(*val);
+    display_number_ref(&val);
+}
+
+
+
+fn display_number(val:i32){
+    println!("{}", val);
+}
+fn display_number_ref(val: &i32){
+    println!("{}", val);
+}
+
+#[derive(Debug)]
+enum ProductCategory {
+    Of(String, Box<ProductCategory>),
+    End
+}
+
+#[test]
+fn test_box_enum() {
+
+    let category = ProductCategory::Of(
+    "Laptop".to_string(),
+    Box::new(ProductCategory::Of(
+    "Dell".to_string(),
+    Box::new(ProductCategory::End)
+    )),
+);
+print_category(&category);
+}
+
+fn print_category(category: &ProductCategory) {
+    println!("{:?}", category);
+} 
+
+#[test]
+fn test_dereference(){
+    let val1 = Box::new(10);
+    let val2 = Box::new(20);
+    let result = *val1 + *val2;
+    println!("{}", result);
+}
+
+struct MyValue<T> {
+    value: T,
+}
+
+use std::ops::Deref;
+
+impl<T> Deref for MyValue<T> {
+    type Target = T;
+    fn deref(&self) -> &Self::Target {
+        &self.value
+    }
+}
+
+#[test]
+fn test_deref_struct() {
+    let val = MyValue {
+        value: 10,
+    };
+    let realval = *val;
+    println!("{}", realval);
+}
+
+
+fn say_hello_ref(name: &String){
+    println!("Hello {}", name);
+}
+
+#[test]
+fn test_deref_ref() {
+    let name = MyValue{
+        value: "Ucup".to_string()
+    };
+    say_hello_ref(&name);
+}
+
+struct Book {
+    title: String
+}
+
+impl Drop for Book {
+    fn drop(&mut self) {
+        println!("Droping Book: {}", self.title);
+    }
+}
+
+#[test]
+fn test_drop() {
+    let book = Book{title: "Pemrograman Rust".to_string()};
+    println!("{}", book.title);
+}
+
+enum Brand{
+    Of(String, Rc<Brand>),
+    End
+}
+
+#[test]
+fn test_multiple_ownership() {
+    let apple = Rc::new(Brand::Of("Apple".to_string(), Rc::new(Brand::End)));
+    println!("Apple reference count: {}", Rc::strong_count(&apple));
+    
+    let laptop = Brand::Of("Laptop".to_string(), Rc::clone(&apple));
+    println!("Apple reference count: {}", Rc::strong_count(&apple));
+    
+    {
+        let smartphone = Brand::Of("Smartphone".to_string(), Rc::clone(&apple));
+        println!("Apple reference count: {}", Rc::strong_count(&apple));
+    }
+    println!("Apple reference count: {}", Rc::strong_count(&apple));
+    // let apple = ProductCategory::Of("Apple".to_string(), Box::new(ProductCategory::End));
+    // let laptop = ProductCategory::Of("Laptop".to_string(), Box::new(apple));
+    // let smartphone = ProductCategory::Of("Smartphone".to_string(), Box::new(apple));
+}
+
+#[derive(Debug)]
+struct Seller{
+    name: RefCell<String>,
+    active: RefCell<bool>
+}
+
+#[test]
+fn test_ref_cell() {
+    let seller = Seller{
+        name: RefCell::new("Ucup".to_string()),
+        active: RefCell::new(true)
+    };
+    {
+        let mut result = seller.name.borrow_mut();
+        *result = "Yusuf".to_string();
+    }
+
+    println!("{:?}", seller);
+}
+
+static APPLICATION: &str = "Application";
+
+#[test]
+fn test_static() {
+    println!("{}", APPLICATION);
+}
+
+static mut COUNTER: i32 = 0;
+
+unsafe fn increment() {
+    COUNTER += 1;
+}
+
+#[test]
+fn test_unsafe() {
+    unsafe{
+        increment();
+        COUNTER += 1;
+        println!("{}", COUNTER);
+    }
+}
+
+
+
