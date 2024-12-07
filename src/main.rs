@@ -1286,7 +1286,7 @@ fn test_attribute_derive() {
         name: "Tekopedia".to_string(),
         location: "Indonesia".to_string(),
         website: "tekopedia.com".to_string(),
-    };  
+    };
 
     println!("{:?}", com);
     let result = com == com2;
@@ -1303,40 +1303,37 @@ fn test_box() {
     display_number_ref(&val);
 }
 
-
-
-fn display_number(val:i32){
+fn display_number(val: i32) {
     println!("{}", val);
 }
-fn display_number_ref(val: &i32){
+fn display_number_ref(val: &i32) {
     println!("{}", val);
 }
 
 #[derive(Debug)]
 enum ProductCategory {
     Of(String, Box<ProductCategory>),
-    End
+    End,
 }
 
 #[test]
 fn test_box_enum() {
-
     let category = ProductCategory::Of(
-    "Laptop".to_string(),
-    Box::new(ProductCategory::Of(
-    "Dell".to_string(),
-    Box::new(ProductCategory::End)
-    )),
-);
-print_category(&category);
+        "Laptop".to_string(),
+        Box::new(ProductCategory::Of(
+            "Dell".to_string(),
+            Box::new(ProductCategory::End),
+        )),
+    );
+    print_category(&category);
 }
 
 fn print_category(category: &ProductCategory) {
     println!("{:?}", category);
-} 
+}
 
 #[test]
-fn test_dereference(){
+fn test_dereference() {
     let val1 = Box::new(10);
     let val2 = Box::new(20);
     let result = *val1 + *val2;
@@ -1358,28 +1355,25 @@ impl<T> Deref for MyValue<T> {
 
 #[test]
 fn test_deref_struct() {
-    let val = MyValue {
-        value: 10,
-    };
+    let val = MyValue { value: 10 };
     let realval = *val;
     println!("{}", realval);
 }
 
-
-fn say_hello_ref(name: &String){
+fn say_hello_ref(name: &String) {
     println!("Hello {}", name);
 }
 
 #[test]
 fn test_deref_ref() {
-    let name = MyValue{
-        value: "Ucup".to_string()
+    let name = MyValue {
+        value: "Ucup".to_string(),
     };
     say_hello_ref(&name);
 }
 
 struct Book {
-    title: String
+    title: String,
 }
 
 impl Drop for Book {
@@ -1390,23 +1384,25 @@ impl Drop for Book {
 
 #[test]
 fn test_drop() {
-    let book = Book{title: "Pemrograman Rust".to_string()};
+    let book = Book {
+        title: "Pemrograman Rust".to_string(),
+    };
     println!("{}", book.title);
 }
 
-enum Brand{
+enum Brand {
     Of(String, Rc<Brand>),
-    End
+    End,
 }
 
 #[test]
 fn test_multiple_ownership() {
     let apple = Rc::new(Brand::Of("Apple".to_string(), Rc::new(Brand::End)));
     println!("Apple reference count: {}", Rc::strong_count(&apple));
-    
+
     let laptop = Brand::Of("Laptop".to_string(), Rc::clone(&apple));
     println!("Apple reference count: {}", Rc::strong_count(&apple));
-    
+
     {
         let smartphone = Brand::Of("Smartphone".to_string(), Rc::clone(&apple));
         println!("Apple reference count: {}", Rc::strong_count(&apple));
@@ -1418,16 +1414,16 @@ fn test_multiple_ownership() {
 }
 
 #[derive(Debug)]
-struct Seller{
+struct Seller {
     name: RefCell<String>,
-    active: RefCell<bool>
+    active: RefCell<bool>,
 }
 
 #[test]
 fn test_ref_cell() {
-    let seller = Seller{
+    let seller = Seller {
         name: RefCell::new("Ucup".to_string()),
-        active: RefCell::new(true)
+        active: RefCell::new(true),
     };
     {
         let mut result = seller.name.borrow_mut();
@@ -1452,12 +1448,102 @@ unsafe fn increment() {
 
 #[test]
 fn test_unsafe() {
-    unsafe{
+    unsafe {
         increment();
         COUNTER += 1;
         println!("{}", COUNTER);
     }
 }
 
+macro_rules! hi {
+    () => {
+        println!("Hi!");
+    };
+    ($name: expr) => {
+        println!("Hi {}!", $name);
+    };
+}
 
+#[test]
+fn test_macro() {
+    hi!();
+    hi!("Eko");
+    hi! {
+        "Ekooo"
+    }
 
+    let name = "Eko";
+    hi!(name);
+}
+
+macro_rules! iterate {
+    ($array:expr) => {
+        for i in $array {
+            println!("{}", i);
+        }
+    };
+    ($($item:expr), *) => {
+        $(
+            println!("{}", $item);
+        )*
+    }
+}
+
+#[test]
+fn test_macro_iterate() {
+    iterate!([1, 2, 3, 4, 5, 6, 7, 7, 8]);
+    iterate!(1, 2, 3, 4, 5, 6, 7, 7, 8);
+}
+
+use std::{
+    ops::Sub,
+    time::{Duration, Instant},
+};
+
+#[test]
+fn test_std_time() {
+    let dur1 = Duration::from_secs(15);
+    println!("{}", dur1.as_millis());
+
+    let dur2 = Duration::from_millis(14500);
+
+    let dur3 = dur1.checked_sub(dur2);
+    println!("{}", dur3.unwrap_or_default().as_millis());
+
+    let now = Instant::now();
+    std::thread::sleep(Duration::from_millis(200));
+
+    println!("Elapsed time: {}", now.elapsed().as_micros());
+}
+
+extern crate chrono;
+
+use chrono::NaiveDate;
+
+#[test]
+fn test_chrono() {
+    let utc_now = chrono::Utc::now();
+    println!("{}", utc_now.format("%H %Y %b %d"));
+
+    let local_time = chrono::Local::now();
+    println!("{}", local_time.format("%Z %H %Y %b %d"));
+
+    let date1 = NaiveDate::from_isoywd_opt(2024, 1, chrono::Weekday::Sun);
+    let unwrapped_date = date1.unwrap();
+    println!("{}", unwrapped_date.format("Day of year is : %j"));
+
+    unwrapped_date
+        .iter_days()
+        .take(4)
+        .for_each(|d| println!("{}", d.format("%j")));
+
+    let date2 = NaiveDate::from_yo_opt(2024, 366);
+    println!("{}", date2.unwrap().format("%A %B %d"));
+
+    let birthday = NaiveDate::parse_from_str("2024||07||03", "%Y||%m||%d");
+    //println!("{}", birthday.err().unwrap());
+    match birthday {
+        Ok(date) => println!("{}", date.format("%Y-%m-%d")),
+        Err(err) => println!("{}", err),
+    }
+}
